@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    bffURL: 'API_URL_PLACEHOLDER', 
+    bffURL: 'https://read-sphere-bff.onrender.com', 
 };
