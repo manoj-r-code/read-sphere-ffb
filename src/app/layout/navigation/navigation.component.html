@@ -1,0 +1,182 @@
+<mat-sidenav-container fullscreen>
+    <mat-sidenav
+        mode="side"
+        (mouseover)="openNavigationMenu()"
+        (mouseleave)="closeNavigationMenu()"
+        opened
+        [ngStyle]="{ width: navigationMenuWidth + 'px' }"
+    >
+        <div class="navigation-list">
+            <div
+                *ngIf="!isNavigationMenuOpen"
+                class="navigation-item navigation-item--main navigation-item--main-icon"
+            >
+                <mat-icon svgIcon="menu"></mat-icon>
+            </div>
+
+            <div
+                *ngIf="isNavigationMenuOpen"
+                class="navigation-item navigation-item--main navigation-item--main-opened"
+            >
+                <div class="navigation-item--main-icon">
+                    <mat-icon svgIcon="close"></mat-icon>
+                </div>
+                <div class="meltwater-header">
+                    <mat-icon svgIcon="meltwater"></mat-icon>
+                    <span class="meltwater-header--text">MyReadingList</span>
+                </div>
+            </div>
+
+            <!-- <div
+            *ngIf="isNavigationMenuOpen"
+            class="navigation-item navigation-item--main navigation-item--main-opened"
+        >
+            <div class="navigation-item--main-icon">
+                <mat-icon svgIcon="close"></mat-icon>
+            </div>
+            <div class="meltwater-header">
+                <mat-icon svgIcon="meltwater"></mat-icon>
+                <span class="meltwater-header--text">MyReadingList</span>
+            </div>
+        </div> -->
+            <div class="navigation-items">
+                <div
+                    class="navigation-items--navigation-item"
+                    *ngFor="let navigationItem of filteredNavigationItems"
+                >
+                    <div class="navigation-items--icon-container">
+                        <a
+                            [routerLink]="navigationItem.routerLink"
+                            routerLinkActive="navigation-item--active"
+                        >
+                            <mat-icon
+                                class="navigation-items--icon"
+                                [svgIcon]="navigationItem.svgIcon"
+                            ></mat-icon>
+                            <div
+                                *ngIf="isNavigationMenuOpen"
+                                class="navigation-items--icon-text"
+                            >
+                                {{ navigationItem.title | titlecase }}
+                            </div>
+                        </a>
+
+                        <mat-icon
+                            *ngIf="
+                                isNavigationMenuOpen &&
+                                navigationItem.children &&
+                                !navigationItem.viewExpanded
+                            "
+                            class="navigation-items--icon navigation-items--navigation-item__expand-icon"
+                            (click)="navigationItem.viewExpanded = true"
+                        >
+                            expand_more
+                        </mat-icon>
+                        <mat-icon
+                            *ngIf="
+                                isNavigationMenuOpen &&
+                                navigationItem.children &&
+                                navigationItem.viewExpanded
+                            "
+                            class="navigation-items--icon navigation-items--navigation-item__expand-icon"
+                            (click)="navigationItem.viewExpanded = false"
+                        >
+                            expand_less
+                        </mat-icon>
+                    </div>
+                    <div
+                        class="navigation-items--navigation-child-container"
+                        *ngIf="
+                            isNavigationMenuOpen &&
+                            navigationItem.children &&
+                            navigationItem.viewExpanded
+                        "
+                    >
+                        <div
+                            class="navigation-items--navigation-child-item"
+                            *ngFor="
+                                let childNavigationItem of navigationItem.children
+                            "
+                        >
+                            <a
+                                [routerLink]="childNavigationItem.routerLink"
+                                routerLinkActive="navigation-item--active"
+                            >
+                                {{ childNavigationItem.title | titlecase }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-spacer"></div>
+            <div *ngIf="isNavigationMenuOpen" class="navigation-footer">
+                <div class="navigation-footer--main">
+                    Meltwater &copy; {{ currentYear }}
+                </div>
+                <div class="navigation-footer--sub">Copyright • Privacy</div>
+            </div>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content
+        [ngStyle]="{ 'margin-left.px': sidenavContentLeftMargin }"
+    >
+        <mat-toolbar class="main-header">
+            <div class="main-header--heading">
+                <mat-icon
+                    class="main-header--heading-icon"
+                    svgIcon="meltwater"
+                ></mat-icon>
+                <span class="main-header--heading-text">
+                    {{ currentRoute | titlecase }}
+                </span>
+            </div>
+            <p></p>
+            <!-- <button routerLink="/dashboard">Home</button>
+            <button routerLink="/add-book">Add Book</button>
+            <button routerLink="/view-books">View Books</button>
+            <button routerLink="/stats">Stats</button> -->
+
+            <div class="flex-spacer"></div>
+
+            <div
+                class="user-menu"
+                [matMenuTriggerFor]="userAccount"
+                data-cy="user-menu-trigger"
+            >
+                <span class="user-menu--text">{{ fullName | titlecase }}</span>
+                <span class="user-menu--icon-container">
+                    <mat-icon
+                        class="user-menu--icon"
+                        svgIcon="avatar"
+                    ></mat-icon>
+                </span>
+            </div>
+
+            <mat-menu #userAccount="matMenu" data-cy="user-account-menu">
+                <div class="user-menu-popup">
+                    <div class="user-menu-icon" data-cy="user-name">
+                        {{ userName | uppercase }}
+                    </div>
+                    <div class="user-menu-content">
+                        <div class="user-menu-text" data-cy="full-name">
+                            {{ fullName | titlecase }}
+                        </div>
+                        <div class="user-menu-text-sub" data-cy="email-id">
+                            {{ emailId }}
+                        </div>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <button
+                    class="user-menu-actions"
+                    mat-menu-item
+                    (click)="logout()"
+                    data-cy="logout-button"
+                >
+                    Logout
+                </button>
+            </mat-menu>
+        </mat-toolbar>
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

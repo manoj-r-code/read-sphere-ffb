@@ -1,0 +1,142 @@
+
+<body style="background-image: url('')">
+    <div class="ok">
+        <div class="container" style="background-image: url('')">
+            <div class="add-book">Add new Book</div>
+            <form
+                (ngSubmit)="onSubmit()"
+                #bookForm="ngForm"
+                style="background-image: url('')"
+            >
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input
+                        type="text"
+                        data-cy="bookname"
+                        id="name"
+                        name="name"
+                        [(ngModel)]="book.name"
+                        #name="ngModel"
+                        required
+                        autocomplete="off"
+                        pattern="^[a-zA-Z\s]*$"
+                        (input)="checkExistingBook(); clearErrorMessage()"
+                    />
+                    <div
+                        *ngIf="name.invalid && (name.touched || formSubmitted)"
+                        class="error-msg"
+                    >
+                        <div *ngIf="name.errors?.['required']">
+                            Name is required.
+                        </div>
+                        <div *ngIf="name.errors?.['pattern']">
+                            Invalid Book name
+                        </div>
+                    </div>
+                    <div
+                        *ngIf="errorMessage && (formSubmitted || name.dirty)"
+                        class="error-msg"
+                    >
+                        {{ errorMessage }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genre:</label>
+                    <select
+                        id="genre"
+                        name="genre"
+                        data-cy="genre"
+                        [(ngModel)]="book.genre"
+                        #genre="ngModel"
+                        required
+                        (change)="clearErrorMessage()"
+                    >
+                        <option value="" disabled selected></option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Sci-fi">Sci-Fi</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Self-help">Self-Help</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Educational">Educational</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    <div
+                        *ngIf="
+                            genre.invalid && (genre.touched || formSubmitted)
+                        "
+                        class="error-msg"
+                    >
+                        <div *ngIf="genre.errors?.['required']">
+                            Genre is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select
+                        id="status"
+                        data-cy="status"
+                        name="status"
+                        [(ngModel)]="book.status"
+                        #status="ngModel"
+                        required
+                        (change)="clearErrorMessage()"
+                    >
+                        <option value="" disabled selected></option>
+                        <option value="Reading">Reading</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Discontinued">Discontinued</option>
+                        <option value="To-Read">To-Read</option>
+                    </select>
+                    <div
+                        *ngIf="
+                            status.invalid && (status.touched || formSubmitted)
+                        "
+                        class="error-msg"
+                    >
+                        <div *ngIf="status.errors?.['required']">
+                            Status is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes:</label>
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        data-cy="notes"
+                        [(ngModel)]="book.notes"
+                        #notes="ngModel"
+                        maxlength="50"
+                        (input)="clearErrorMessage()"
+                    ></textarea>
+                    <div
+                        *ngIf="notes.invalid && notes.touched"
+                        class="error-msg"
+                    >
+                        <div *ngIf="notes.errors?.['maxlength']">
+                            Notes cannot exceed 50 characters.
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" [disabled]="bookForm.invalid">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- <div class="top-buttons">
+        <button routerLink="/home-page">Home</button>
+        <button routerLink="/stats">Stats</button>
+        <button routerLink="/view-books">View Books</button>
+    </div> -->
+</body>
+
+<style>
+    .error-msg {
+        color: red;
+        font-size: 0.9em;
+    }
+</style>
