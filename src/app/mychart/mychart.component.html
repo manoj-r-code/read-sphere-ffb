@@ -1,0 +1,75 @@
+<br />
+
+<div class="button-container">
+    <button
+        class="home-button"
+        routerLink="/home-page"
+        style="
+            background-color: #1d9f9f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        "
+        onmouseover="this.style.backgroundColor='#147e7e'"
+        onmouseout="this.style.backgroundColor='#1D9F9F'"
+    >
+        Home
+    </button>
+</div>
+
+<br />
+<br />
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <pre>                         Total Books</pre>
+                </h5>
+                <pre class="card-text">
+                            {{ totalBooks }}</pre
+                >
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h2>Books by Genre</h2>
+            <div class="row row-cols-1 row-cols-lg-2 g-4">
+                <div *ngFor="let genre of genreKeys" class="col">
+                    <div class="card genre-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ genre }}</h5>
+                            <p class="card-text">{{ genreCounts[genre] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="mt-4">
+            <h2>Books by Status</h2>
+            <div class="row row-cols-1 row-cols-lg-2 g-4">
+                <div *ngFor="let genre of statusKeys" class="col">
+                    <div class="card genre-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ genre }}</h5>
+                            <p class="card-text">{{ statusCounts[genre] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h2>Hey! Here goes your Stats</h2>
+                <canvas id="piechart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<div>
+    <div class="com">
+        <div
+            class="book-search-container"
+            style="display: flex; align-items: center"
+        >
+            <input
+                type="text"
+                data-cy="searchBooks"
+                [(ngModel)]="query"
+                placeholder="Are you looking for any book?"
+                style="
+                    width: 300px;
+                    padding: 10px;
+                    margin-right: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 20px;
+                "
+            />
+            <button
+                data-cy="searchButton"
+                (click)="searchBooks()"
+                style="
+                    padding: 10px 20px;
+                    background-color: #1d9f9f;
+                    color: white;
+                    border: none;
+                    border-radius: 15px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                "
+            >
+                Search
+            </button>
+        </div>
+    </div>
+
+    <div class="book-list" data-cy="bookList" *ngIf="books.length > 0">
+        <h2>Books</h2>
+        <div class="book-grid">
+            <div *ngFor="let book of books" class="book-item">
+                <img [src]="book.coverUrl" alt="Book Cover" />
+                <div class="book-details">
+                    <p class="book-title">{{ book.title }}</p>
+                    <p class="book-author">Author: {{ book.author_name }}</p>
+                    <p class="book-year">
+                        First Publish Year: {{ book.first_publish_year }}
+                    </p>
+                    <p class="book-year">Ratings: {{ book.ratings_count }}</p>
+                    <!-- <p class="book-description">{{ book.description }}</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+        *ngIf="books.length === 0 && query.trim() !== ''"
+        class="loading-spinner"
+        style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        "
+        data-cy="loadingSpinner"
+    >
+        <svg
+            class="spinner"
+            width="40"
+            height="40"
+            viewBox="0 0 40 40"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <circle
+                cx="20"
+                cy="20"
+                r="18"
+                fill="none"
+                stroke-width="4"
+                stroke="#1d9f9f"
+                stroke-dasharray="113.097"
+                stroke-dashoffset="0"
+            >
+                <animate
+                    attributeName="stroke-dashoffset"
+                    dur="2s"
+                    from="0"
+                    to="113.097"
+                    repeatCount="indefinite"
+                />
+            </circle>
+        </svg>
+    </div>
+</div>
